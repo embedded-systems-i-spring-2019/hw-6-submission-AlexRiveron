@@ -31,19 +31,26 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity q1 is
+entity q2 is
     Port ( clk, X1,X2 : in STD_LOGIC;
            Z : out STD_LOGIC);
-end q1;
+end q2;
 
-architecture Behavioral of q1 is
-signal PY : STD_LOGIC_VECTOR (1 downto 0);
+architecture Behavioral of q2 is
+signal PY : STD_LOGIC_VECTOR (1 downto 0) := "10";
 signal NY : STD_LOGIC_VECTOR (1 downto 0) := "10";
 
 begin
-    process (clk) begin
-        if (rising_edge(clk)) then
+
+sync_p: process (CLK,NY)
+    begin
+        if (rising_edge(CLK)) then
             PY <= NY;
+        end if;
+end process sync_p;
+
+
+    process (clk, X1,X2) begin
             Case PY is
             When "10"
             => if (X1 = '0') then
@@ -69,7 +76,8 @@ begin
             When others
             => NY <= "10";
         end case;
-    end if;
+        PY <= NY;
+    
 end process;
 
 end Behavioral;

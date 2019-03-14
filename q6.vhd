@@ -40,8 +40,15 @@ architecture Behavioral of q6 is
 signal PS : STD_LOGIC_VECTOR (1 downto 0) := "00";
 signal NS : STD_LOGIC_VECTOR (1 downto 0) := "00";
 begin
-    process (clk) begin
-        if (rising_edge(clk)) then
+
+sync_p: process (clk,NS)
+    begin
+        if (rising_edge(CLK)) then
+            PS <= NS;
+    end if;
+end process sync_p;
+
+    process (X) begin
             case PS is
                 When "00"
                     => Z1 <= '1';
@@ -75,7 +82,5 @@ begin
                 When others
                     => NS <= "00";
             end case;
-            PS <= NS;
-        end if;
     end process;
 end Behavioral;
