@@ -37,22 +37,24 @@ entity q1 is
 end q1;
 
 architecture Behavioral of q1 is
-signal Y : STD_LOGIC_VECTOR (1 downto 0) := "10";
+signal PY : STD_LOGIC_VECTOR (1 downto 0) := "10";
+signal NY : STD_LOGIC_VECTOR (1 downto 0) := "10";
+
 begin
     process (clk) begin
         if (rising_edge(clk)) then
-            Case Y is
+            Case PY is
             When "10"
             => if (X1 = '0') then
                     Z <= '0';
                 elsif (X1 = '1') then
-                    Y <= "01";
+                    NY <= "01";
                     Z <= '0';
                 end if;
             When "01"
             => if (X2 = '0') then
                     Z <= '1';
-                    Y <= "10";
+                    NY <= "10";
                 elsif (X2 = '1') then
                     Z <= '0';
                 end if;
@@ -61,11 +63,12 @@ begin
                 Z <= '0';
             elsif (X2 = '0') then
                 Z <= '1';
-                Y <= "10";
+                NY <= "10";
             end if;
             When others
-            => Y <= "10";
+            => NY <= "10";
         end case;
+        PY <= NY;
     end if;
 end process;
 

@@ -37,43 +37,45 @@ entity q6 is
 end q6;
 
 architecture Behavioral of q6 is
-signal S : STD_LOGIC_VECTOR (1 downto 0) := "00";
+signal PS : STD_LOGIC_VECTOR (1 downto 0) := "00";
+signal NS : STD_LOGIC_VECTOR (1 downto 0) := "00";
 begin
     process (clk) begin
         if (rising_edge(clk)) then
-            case S is
+            case PS is
                 When "00"
                     => Z1 <= '1';
                        Z2 <= '0';
                         if ( X = '0') then
-                            S <= "10";
+                            NS <= "10";
                         end if;
                 When "10" 
                     => Z1 <= '1';
                        Z2 <= '0';
                        if ( X = '1') then
-                            S <= "00";
+                            NS <= "00";
                         elsif (X = '0') then
-                            S <= "01"; 
+                            NS <= "01"; 
                        end if;
                 When "01"
                     => Z1 <= '0';
                        Z2 <= '0';
                        if (X = '0') then 
-                            S <= "11";
+                            NS <= "11";
                        end if;
                 When "11"
                     => Z1 <= '0';
                        if (X = '1') then 
-                            S <= "01";
+                            NS <= "01";
                             Z2 <= '0';
                        elsif (X = '0') then
-                            S <= "00";
+                            NS <= "00";
                             Z2 <= '1';
                         end if;
                 When others
-                    => S <= "00";
+                    => NS <= "00";
             end case;
+            PS <= NS;
         end if;
     end process;
 end Behavioral;

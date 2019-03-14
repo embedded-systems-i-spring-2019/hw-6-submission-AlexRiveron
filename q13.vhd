@@ -38,24 +38,25 @@ entity q13 is
 end q13;
 
 architecture Behavioral of q13 is
-signal Y : STD_LOGIC_VECTOR (2 DOWNTO 1) := "001";
+signal PY : STD_LOGIC_VECTOR (2 DOWNTO 1) := "001";
+signal NY : STD_LOGIC_VECTOR (2 DOWNTO 1);
 begin
     process (clk) 
         begin 
             if (rising_edge(clk)) then
-                Case Y is
+                Case PY is
                     When "001"
                         => if (X1 = '0') then
-                                Y <= "010";
+                                NY <= "010";
                                 CS <= '0';
                                 RD <= '1';
                             elsif (X1 = '1') then
-                                Y <= "100";
+                                NY <= "100";
                                 CS <= '1';
                                 RD <= '0';
                             end if;
                     When "010"
-                        => Y <= "100";
+                        => NY <= "100";
                            CS <= '1';
                            RD <= '1';
                     When "100"
@@ -65,10 +66,12 @@ begin
                             elsif ( X2 = '0') then
                                 CS <= '1';
                                 RD <= '0';
+                                NY <= "001";
                             end if;
                     When others
-                        => Y <= "001";
+                        => NY <= "001";
                     end case;
+                        PY <= NY;
             end if;
         end process;
 end Behavioral;
